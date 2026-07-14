@@ -7,6 +7,15 @@ class CategoryGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(onPressed: () {}, child: Text(category.title));
+    return TextButton(
+      onPressed: () {},
+      style: TextButton.styleFrom(
+        backgroundColor: category.color,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusGeometry.all(Radius.circular(10)),
+        ),
+      ),
+      child: Text(category.title),
+    );
   }
 }
