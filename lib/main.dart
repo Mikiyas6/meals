@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meals/categories.dart';
+import 'package:meals/screens/categories.dart';
 
 /*
   In Flutter, ThemeData is the object that holds the visual styling for your app, such as colors, fonts, and overall design rules.
