@@ -18,10 +18,9 @@ The final line, textTheme: GoogleFonts.latoTextTheme(),, applies a text style se
  */
 
 final theme = ThemeData(
-  useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
+    seedColor: const Color.fromARGB(255, 246, 220, 200),
     brightness: Brightness.dark,
-    seedColor: const Color.fromARGB(255, 131, 57, 0),
   ),
   textTheme: GoogleFonts.latoTextTheme(),
 );
