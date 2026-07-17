@@ -20,7 +20,7 @@ The final line, textTheme: GoogleFonts.latoTextTheme(),, applies a text style se
 final theme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
     seedColor: const Color.fromARGB(255, 246, 220, 200),
-    brightness: Brightness.dark,
+    brightness: Brightness.light,
   ),
   textTheme: GoogleFonts.latoTextTheme(),
 );
