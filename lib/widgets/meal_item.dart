@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals/data/meal.dart';
+import 'package:meals/screens/meal_details.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
@@ -31,6 +32,13 @@ class MealItem extends StatelessWidget {
         : ListView.builder(
             itemCount: meals.length,
             itemBuilder: (context, index) => InkWell(
+              onTap: () => {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MealDetailsScreen(meal: meals[index]),
+                  ),
+                ),
+              },
               child: Card(
                 elevation: 2,
                 margin: EdgeInsets.all(8),
@@ -43,9 +51,6 @@ class MealItem extends StatelessWidget {
                     FadeInImage(
                       placeholder: MemoryImage(kTransparentImage),
                       image: NetworkImage(meals[index].imageUrl),
-                      // fit: BoxFit.cover,
-                      // height: 210,
-                      // width: double.infinity,
                     ),
                     Positioned(
                       left: 0,
@@ -70,6 +75,52 @@ class MealItem extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
                               softWrap: true,
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                              children: [
+                                Row(
+                                  spacing: 5,
+                                  children: [
+                                    Icon(Icons.schedule),
+                                    Text(
+                                      '${meals[index].duration} min',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  spacing: 5,
+                                  children: [
+                                    Icon(Icons.shopping_bag),
+                                    Text(
+                                      meals[index].complexity.name,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  spacing: 1,
+                                  children: [
+                                    Icon(Icons.attach_money),
+                                    Text(
+                                      meals[index].affordability.name,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ],
                         ),
