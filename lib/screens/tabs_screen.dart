@@ -10,17 +10,33 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  var _selectedIndex;
+  late int _selectedIndex;
+  late List<String> favorites;
   @override
   void initState() {
     super.initState();
     _selectedIndex = 0;
+    favorites = [];
   }
 
   void selectIndex(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void saveToFavorites(String mealId) {
+    setState(() {
+      if (!favorites.contains(mealId)) {
+        favorites.add(mealId);
+      } else {
+        favorites.remove(mealId);
+      }
+    });
+  }
+
+  bool isFavorite(String id) {
+    return favorites.contains(id);
   }
 
   @override
@@ -31,8 +47,17 @@ class _TabsScreenState extends State<TabsScreen> {
         centerTitle: false,
       ),
       body: _selectedIndex == 0
-          ? CategoriesScreen()
-          : MealScreen(title: "Favorites", id: "c99"),
+          ? CategoriesScreen(
+              saveToFavorites: saveToFavorites,
+              isFavorite: isFavorite,
+            )
+          : MealScreen.favorite(
+              title: "Favorites",
+              id: "favorites",
+              saveToFavorites: saveToFavorites,
+              isFavorite: isFavorite,
+              favorites: favorites,
+            ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (value) => {selectIndex(value)},

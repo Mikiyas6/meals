@@ -4,7 +4,14 @@ import 'package:meals/screens/meal_details.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({super.key, required this.meals});
+  const MealItem({
+    super.key,
+    required this.meals,
+    required this.saveToFavorites,
+    required this.isFavorite,
+  });
+  final Function saveToFavorites;
+  final Function isFavorite;
   final List<Meal> meals;
 
   @override
@@ -35,7 +42,11 @@ class MealItem extends StatelessWidget {
               onTap: () => {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => MealDetailsScreen(meal: meals[index]),
+                    builder: (context) => MealDetailsScreen(
+                      meal: meals[index],
+                      saveToFavorites: saveToFavorites,
+                      isFavorite: isFavorite,
+                    ),
                   ),
                 ),
               },
@@ -59,7 +70,7 @@ class MealItem extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.symmetric(
                           vertical: 6,
-                          horizontal: 44,
+                          horizontal: 30,
                         ),
                         color: Colors.black54,
                         child: Column(

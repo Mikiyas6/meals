@@ -2,20 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:meals/data/meal.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class MealDetailsScreen extends StatelessWidget {
-  const MealDetailsScreen({super.key, required this.meal});
+class MealDetailsScreen extends StatefulWidget {
+  const MealDetailsScreen({
+    super.key,
+    required this.meal,
+    required this.saveToFavorites,
+    required this.isFavorite,
+  });
 
   final Meal meal;
+  final Function saveToFavorites;
+  final Function isFavorite;
+
+  @override
+  State<MealDetailsScreen> createState() => _MealDetailsScreenState();
+}
+
+class _MealDetailsScreenState extends State<MealDetailsScreen> {
+  var isFavorited;
+  @override
+  void initState() {
+    isFavorited = widget.isFavorite(widget.meal.id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(meal.title), centerTitle: false),
+      appBar: AppBar(
+        title: Text(widget.meal.title),
+        centerTitle: false,
+        actions: [
+          IconButton(
+            onPressed: () {
+              widget.saveToFavorites(widget.meal.id);
+              setState(() {
+                isFavorited = !isFavorited;
+              });
+            },
+            icon: Icon(isFavorited ? Icons.star : Icons.star_border),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(meal.imageUrl),
+              image: NetworkImage(widget.meal.imageUrl),
             ),
 
             Padding(
@@ -31,7 +65,7 @@ class MealDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 15),
-                  ...meal.ingredients.map(
+                  ...widget.meal.ingredients.map(
                     (ingredient) => Column(
                       children: [
                         Text(
@@ -53,7 +87,7 @@ class MealDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
-                  ...meal.steps.map(
+                  ...widget.meal.steps.map(
                     (ingredient) => Column(
                       children: [
                         Text(

@@ -3,8 +3,15 @@ import 'package:meals/model/category.dart';
 import 'package:meals/screens/meal.dart';
 
 class CategoryGridItem extends StatelessWidget {
-  const CategoryGridItem({super.key, required this.category});
+  const CategoryGridItem({
+    super.key,
+    required this.category,
+    required this.saveToFavorites,
+    required this.isFavorite,
+  });
   final Category category;
+  final Function saveToFavorites;
+  final Function isFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +20,12 @@ class CategoryGridItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) =>
-              MealScreen(title: category.title, id: category.id),
+          builder: (context) => MealScreen(
+            title: category.title,
+            id: category.id,
+            isFavorite: isFavorite,
+            saveToFavorites: saveToFavorites,
+          ),
         ),
       ),
       child: Container(
