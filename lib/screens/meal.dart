@@ -13,6 +13,9 @@ class MealScreen extends StatelessWidget {
     List<Meal> filteredMeals = dummyMeals
         .where((meal) => meal.categories.contains(id))
         .toList();
+    if (title == "Favorites") {
+      return MealItem(meals: filteredMeals);
+    }
     return Scaffold(
       appBar: AppBar(title: Text(title), centerTitle: false),
       body: MealItem(meals: filteredMeals),

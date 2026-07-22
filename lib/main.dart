@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meals/screens/categories.dart';
+import 'package:meals/screens/tabs_screen.dart';
 
 /*
   In Flutter, ThemeData is the object that holds the visual styling for your app, such as colors, fonts, and overall design rules.
@@ -40,7 +41,7 @@ class App extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       theme: theme,
-      home: CategoriesScreen(),
+      home: TabsScreen(),
     );
   }
 }
