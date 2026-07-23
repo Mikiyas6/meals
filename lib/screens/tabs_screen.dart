@@ -28,9 +28,13 @@ class _TabsScreenState extends State<TabsScreen> {
   void saveToFavorites(String mealId) {
     setState(() {
       if (!favorites.contains(mealId)) {
-        favorites.add(mealId);
+        setState(() {
+          favorites.add(mealId);
+        });
       } else {
-        favorites.remove(mealId);
+        setState(() {
+          favorites.remove(mealId);
+        });
       }
     });
   }
@@ -45,6 +49,18 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: Text(_selectedIndex == 0 ? "Categories" : "Favorites"),
         centerTitle: false,
+        actions: [
+          if (_selectedIndex == 1 && favorites.isNotEmpty)
+            ElevatedButton.icon(
+              onPressed: () {
+                setState(() {
+                  favorites = [];
+                });
+              },
+              label: Text("Clear All"),
+              icon: Icon(Icons.delete),
+            ),
+        ],
       ),
       body: _selectedIndex == 0
           ? CategoriesScreen(

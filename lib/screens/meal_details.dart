@@ -26,8 +26,25 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
     super.initState();
   }
 
+  void onClickFavorite(String id) {
+    widget.saveToFavorites(id);
+    setState(() {
+      isFavorited = !isFavorited;
+    });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 1),
+        content: Text(
+          !isFavorited ? "Meal no longer a favorite" : "You favorited a meal",
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(isFavorited);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.meal.title),
@@ -35,10 +52,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              widget.saveToFavorites(widget.meal.id);
-              setState(() {
-                isFavorited = !isFavorited;
-              });
+              onClickFavorite(widget.meal.id);
             },
             icon: Icon(isFavorited ? Icons.star : Icons.star_border),
           ),
