@@ -46,6 +46,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
   Widget build(BuildContext context) {
     print(isFavorited);
     return Scaffold(
+      drawer: ListView.builder(itemBuilder: (context, index) => Text("T")),
       appBar: AppBar(
         title: Text(widget.meal.title),
         centerTitle: false,

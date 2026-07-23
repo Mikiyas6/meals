@@ -46,6 +46,59 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+              ),
+              child: Center(
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.fastfood,
+                      size: 40,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Cooking Up!",
+                      style: Theme.of(context).textTheme.headlineMedium!
+                          .copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            ListTile(
+              selectedColor: Theme.of(context).colorScheme.primary,
+
+              onTap: () {},
+              leading: Icon(Icons.restaurant),
+              title: Text(
+                "Meals",
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              onTap: () {},
+              title: Text(
+                "Filters",
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text(_selectedIndex == 0 ? "Categories" : "Favorites"),
         centerTitle: false,
