@@ -1,6 +1,9 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:meals/screens/tabs_screen.dart';
 
 /*
   In Flutter, ThemeData is the object that holds the visual styling for your app, such as colors, fonts, and overall design rules.
@@ -15,16 +18,17 @@ The final line, textTheme: GoogleFonts.latoTextTheme(),, applies a text style se
  */
 
 final theme = ThemeData(
-  useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
+    seedColor: const Color.fromARGB(255, 246, 220, 200),
     brightness: Brightness.dark,
-    seedColor: const Color.fromARGB(255, 131, 57, 0),
   ),
   textTheme: GoogleFonts.latoTextTheme(),
 );
 
 void main() {
-  runApp(const App());
+  runApp(
+    DevicePreview(enabled: !kReleaseMode, builder: (context) => const App()),
+  );
 }
 
 class App extends StatelessWidget {
@@ -33,8 +37,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       theme: theme,
-      home: // Todo ...,
+      home: TabsScreen(),
     );
   }
 }
