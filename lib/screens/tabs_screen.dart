@@ -76,8 +76,12 @@ class _TabsScreenState extends State<TabsScreen> {
             ),
             ListTile(
               selectedColor: Theme.of(context).colorScheme.primary,
-
-              onTap: () {},
+              onTap: () {
+                setState(() {
+                  _selectedIndex = 0;
+                });
+                Navigator.of(context).pop();
+              },
               leading: Icon(Icons.restaurant),
               title: Text(
                 "Meals",
@@ -88,7 +92,13 @@ class _TabsScreenState extends State<TabsScreen> {
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              onTap: () {},
+              onTap: () {
+                setState(() {
+                  _selectedIndex = 1;
+                });
+
+                Navigator.of(context).pop();
+              },
               title: Text(
                 "Filters",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
