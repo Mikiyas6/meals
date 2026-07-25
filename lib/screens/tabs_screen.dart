@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:meals/data/dummy_data.dart';
+import 'package:meals/data/meal.dart';
 import 'package:meals/screens/categories.dart';
+import 'package:meals/screens/filters.dart';
 import 'package:meals/screens/meal.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -12,11 +15,21 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   late int _selectedIndex;
   late List<String> favorites;
+  late List<Meal> filteredMeals;
+  late bool isGlutenFree;
+  late bool isVegetarian;
+  late bool isLactoseFree;
+  late bool isVegan;
   @override
   void initState() {
     super.initState();
     _selectedIndex = 0;
     favorites = [];
+    filteredMeals = [];
+    isGlutenFree = false;
+    isLactoseFree = false;
+    isVegetarian = false;
+    isVegan = false;
   }
 
   void selectIndex(int index) {
@@ -36,6 +49,30 @@ class _TabsScreenState extends State<TabsScreen> {
           favorites.remove(mealId);
         });
       }
+    });
+  }
+
+  void filter() {
+    var meals = List.of(dummyMeals);
+
+    if (isGlutenFree) {
+      meals = meals.where((meal) => meal.isGlutenFree).toList();
+    }
+
+    if (isLactoseFree) {
+      meals = meals.where((meal) => meal.isLactoseFree).toList();
+    }
+
+    if (isVegetarian) {
+      meals = meals.where((meal) => meal.isVegetarian).toList();
+    }
+
+    if (isVegan) {
+      meals = meals.where((meal) => meal.isVegan).toList();
+    }
+
+    setState(() {
+      filteredMeals = meals;
     });
   }
 
@@ -93,11 +130,9 @@ class _TabsScreenState extends State<TabsScreen> {
             ListTile(
               leading: Icon(Icons.settings),
               onTap: () {
-                setState(() {
-                  _selectedIndex = 1;
-                });
-
-                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => FiltersScreen()),
+                );
               },
               title: Text(
                 "Filters",
