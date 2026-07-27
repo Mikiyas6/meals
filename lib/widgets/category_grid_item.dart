@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals/data/meal.dart';
 import 'package:meals/model/category.dart';
 import 'package:meals/screens/meal.dart';
 
@@ -8,26 +9,31 @@ class CategoryGridItem extends StatelessWidget {
     required this.category,
     required this.saveToFavorites,
     required this.isFavorite,
+    required this.filteredMeals,
   });
   final Category category;
   final Function saveToFavorites;
   final Function isFavorite;
+  final List<Meal> filteredMeals;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Theme.of(context).colorScheme.primary,
       borderRadius: BorderRadius.circular(20),
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => MealScreen(
-            title: category.title,
-            id: category.id,
-            isFavorite: isFavorite,
-            saveToFavorites: saveToFavorites,
+      onTap: () => {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => MealScreen(
+              title: category.title,
+              id: category.id,
+              isFavorite: isFavorite,
+              saveToFavorites: saveToFavorites,
+              filteredMeals: filteredMeals,
+            ),
           ),
         ),
-      ),
+      },
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(

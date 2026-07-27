@@ -11,6 +11,7 @@ class MealScreen extends StatelessWidget {
     required this.id,
     required this.saveToFavorites,
     required this.isFavorite,
+    required this.filteredMeals,
     this.favorites = const [],
   });
   const MealScreen.favorite({
@@ -20,6 +21,7 @@ class MealScreen extends StatelessWidget {
     required this.saveToFavorites,
     required this.isFavorite,
     required this.favorites,
+    this.filteredMeals = const [],
   });
 
   final String title;
@@ -27,9 +29,10 @@ class MealScreen extends StatelessWidget {
   final Function saveToFavorites;
   final Function isFavorite;
   final List<String> favorites;
+  final List<Meal> filteredMeals;
   @override
   Widget build(BuildContext context) {
-    List<Meal> filteredMeals = dummyMeals
+    List<Meal> meals = filteredMeals
         .where((meal) => meal.categories.contains(id))
         .toList();
     List<Meal> favoriteMeals = dummyMeals
@@ -46,7 +49,7 @@ class MealScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(title), centerTitle: false),
       body: MealItem(
-        meals: filteredMeals,
+        meals: meals,
         saveToFavorites: saveToFavorites,
         isFavorite: isFavorite,
       ),

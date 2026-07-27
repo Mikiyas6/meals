@@ -3,8 +3,26 @@ import 'package:meals/data/filters.dart';
 import 'package:meals/widgets/filter_item.dart';
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+  const FiltersScreen({
+    super.key,
+    required this.onToggleGlutenFree,
+    required this.onToggleLactoseFree,
+    required this.onToggleVegetarian,
+    required this.onToggleVegan,
+    required this.getIsGlutenFree,
+    required this.getIsLactoseFree,
+    required this.getIsVegetarian,
+    required this.getIsVegan,
+  });
 
+  final Function onToggleGlutenFree;
+  final Function onToggleLactoseFree;
+  final Function onToggleVegetarian;
+  final Function onToggleVegan;
+  final Function getIsGlutenFree;
+  final Function getIsLactoseFree;
+  final Function getIsVegetarian;
+  final Function getIsVegan;
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
 }
@@ -24,6 +42,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 id: filter.id,
                 filterType: filter.filterType,
                 filterDescription: filter.filterDescription,
+                onToggleGlutenFree: widget.onToggleGlutenFree,
+                onToggleLactoseFree: widget.onToggleLactoseFree,
+                onToggleVegetarian: widget.onToggleVegetarian,
+                onToggleVegan: widget.onToggleVegan,
+                getIsGlutenFree: widget.getIsGlutenFree,
+                getIsLactoseFree: widget.getIsLactoseFree,
+                getIsVegetarian: widget.getIsVegetarian,
+                getIsVegan: widget.getIsVegan,
               ),
             ),
           ],

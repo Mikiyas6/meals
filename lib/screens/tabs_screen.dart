@@ -32,6 +32,46 @@ class _TabsScreenState extends State<TabsScreen> {
     isVegan = false;
   }
 
+  void onToggleGlutenFree() {
+    setState(() {
+      isGlutenFree = !isGlutenFree;
+    });
+  }
+
+  void onToggleLactoseFree() {
+    setState(() {
+      isLactoseFree = !isLactoseFree;
+    });
+  }
+
+  void onToggleVegetarian() {
+    setState(() {
+      isVegetarian = !isVegetarian;
+    });
+  }
+
+  void onToggleVegan() {
+    setState(() {
+      isVegan = !isVegan;
+    });
+  }
+
+  bool getIsGlutenFree() {
+    return isGlutenFree;
+  }
+
+  bool getIsLactoseFree() {
+    return isLactoseFree;
+  }
+
+  bool getIsVegetarian() {
+    return isVegetarian;
+  }
+
+  bool getIsVegan() {
+    return isVegan;
+  }
+
   void selectIndex(int index) {
     setState(() {
       _selectedIndex = index;
@@ -82,6 +122,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    filter();
     return Scaffold(
       drawer: Drawer(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
@@ -131,7 +172,18 @@ class _TabsScreenState extends State<TabsScreen> {
               leading: Icon(Icons.settings),
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => FiltersScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => FiltersScreen(
+                      onToggleGlutenFree: onToggleGlutenFree,
+                      onToggleLactoseFree: onToggleLactoseFree,
+                      onToggleVegetarian: onToggleVegetarian,
+                      onToggleVegan: onToggleVegan,
+                      getIsGlutenFree: getIsGlutenFree,
+                      getIsLactoseFree: getIsLactoseFree,
+                      getIsVegetarian: getIsVegetarian,
+                      getIsVegan: getIsVegan,
+                    ),
+                  ),
                 );
               },
               title: Text(
@@ -164,6 +216,7 @@ class _TabsScreenState extends State<TabsScreen> {
           ? CategoriesScreen(
               saveToFavorites: saveToFavorites,
               isFavorite: isFavorite,
+              filteredMeals: filteredMeals,
             )
           : MealScreen.favorite(
               title: "Favorites",
