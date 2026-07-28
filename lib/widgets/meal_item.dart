@@ -83,9 +83,9 @@ class MealItem extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                               maxLines: 2,
+                              softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
-                              softWrap: true,
                             ),
                             SizedBox(height: 10),
                             Row(

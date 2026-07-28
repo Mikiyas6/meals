@@ -41,7 +41,7 @@ class _FilterItemState extends State<FilterItem> {
     super.initState();
   }
 
-  bool isToggleOn(String filterId) {
+  bool isToggleOn() {
     switch (widget.id) {
       case "0":
         return isGlutenFree;
@@ -56,8 +56,8 @@ class _FilterItemState extends State<FilterItem> {
     }
   }
 
-  void _togglePressed(String filterId) {
-    switch (filterId) {
+  void _togglePressed() {
+    switch (widget.id) {
       case "0":
         {
           widget.onToggleGlutenFree();
@@ -118,9 +118,9 @@ class _FilterItemState extends State<FilterItem> {
 
         IconButton(
           onPressed: () {
-            _togglePressed(widget.id);
+            _togglePressed();
           },
-          icon: isToggleOn(widget.id)
+          icon: isToggleOn()
               ? Icon(
                   Icons.toggle_on,
                   size: 50,
