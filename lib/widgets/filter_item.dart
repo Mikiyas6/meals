@@ -95,44 +95,23 @@ class _FilterItemState extends State<FilterItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.filterType,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            Text(
-              widget.filterDescription,
-              style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-          ],
+    return SwitchListTile(
+      title: Text(
+        widget.filterType,
+        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+          color: Theme.of(context).colorScheme.onSurface,
         ),
-
-        IconButton(
-          onPressed: () {
-            _togglePressed();
-          },
-          icon: isToggleOn()
-              ? Icon(
-                  Icons.toggle_on,
-                  size: 50,
-                  color: Theme.of(context).colorScheme.primary,
-                )
-              : Icon(
-                  Icons.toggle_off_outlined,
-                  size: 50,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+      ),
+      subtitle: Text(
+        widget.filterDescription,
+        style: Theme.of(context).textTheme.labelMedium!.copyWith(
+          color: Theme.of(context).colorScheme.onSurface,
         ),
-      ],
+      ),
+      value: isToggleOn(),
+      onChanged: (value) {
+        _togglePressed();
+      },
     );
   }
 }

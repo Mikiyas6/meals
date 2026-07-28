@@ -171,6 +171,7 @@ class _TabsScreenState extends State<TabsScreen> {
             ListTile(
               leading: Icon(Icons.settings),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => FiltersScreen(
