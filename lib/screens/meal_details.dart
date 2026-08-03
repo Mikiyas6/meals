@@ -63,6 +63,8 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
             FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
               image: NetworkImage(widget.meal.imageUrl),
+              imageErrorBuilder: (context, error, stackTrace) =>
+                  const SizedBox(),
             ),
 
             Padding(

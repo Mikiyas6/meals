@@ -15,7 +15,7 @@ class MealScreen extends StatelessWidget {
     required this.id,
     required this.saveToFavorites,
     required this.isFavorite,
-    required this.filteredMeals,
+    required this.getFilteredMeals,
     this.favorites = const [],
   });
   const MealScreen.favorite({
@@ -25,35 +25,36 @@ class MealScreen extends StatelessWidget {
     required this.saveToFavorites,
     required this.isFavorite,
     required this.favorites,
-    this.filteredMeals = const [],
-  });
+  }) : getFilteredMeals = _emptyMeals;
 
   final String title;
   final String id;
   final Function saveToFavorites;
   final Function isFavorite;
   final List<String> favorites;
-  final List<Meal> filteredMeals;
+  final Function getFilteredMeals;
+  static List<Meal> _emptyMeals() => [];
+
   @override
   Widget build(BuildContext context) {
-    List<Meal> meals = filteredMeals
-        .where((meal) => meal.categories.contains(id))
-        .toList();
-    List<Meal> favoriteMeals = dummyMeals
-        .where((meal) => favorites.contains(meal.id))
-        .toList();
-
     if (title == "Favorites") {
+      List<Meal> favoriteMeals = dummyMeals
+          .where((meal) => favorites.contains(meal.id))
+          .toList();
+
       return MealItem(
         meals: favoriteMeals,
         saveToFavorites: saveToFavorites,
         isFavorite: isFavorite,
       );
     }
+
+    List<Meal> meals = getFilteredMeals();
+    var newMeals = meals.where((meal) => meal.categories.contains(id)).toList();
     return Scaffold(
       appBar: AppBar(title: Text(title), centerTitle: false),
       body: MealItem(
-        meals: meals,
+        meals: newMeals,
         saveToFavorites: saveToFavorites,
         isFavorite: isFavorite,
       ),

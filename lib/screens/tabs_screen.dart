@@ -15,7 +15,6 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   late int _selectedIndex;
   late List<String> favorites;
-  late List<Meal> filteredMeals;
   late bool isGlutenFree;
   late bool isVegetarian;
   late bool isLactoseFree;
@@ -25,7 +24,6 @@ class _TabsScreenState extends State<TabsScreen> {
     super.initState();
     _selectedIndex = 0;
     favorites = [];
-    filteredMeals = [];
     isGlutenFree = false;
     isLactoseFree = false;
     isVegetarian = false;
@@ -81,18 +79,14 @@ class _TabsScreenState extends State<TabsScreen> {
   void saveToFavorites(String mealId) {
     setState(() {
       if (!favorites.contains(mealId)) {
-        setState(() {
-          favorites.add(mealId);
-        });
+        favorites.add(mealId);
       } else {
-        setState(() {
-          favorites.remove(mealId);
-        });
+        favorites.remove(mealId);
       }
     });
   }
 
-  void filter() {
+  List<Meal> filterMeals() {
     var meals = List.of(dummyMeals);
 
     if (isGlutenFree) {
@@ -111,18 +105,19 @@ class _TabsScreenState extends State<TabsScreen> {
       meals = meals.where((meal) => meal.isVegan).toList();
     }
 
-    setState(() {
-      filteredMeals = meals;
-    });
+    return meals;
   }
 
   bool isFavorite(String id) {
     return favorites.contains(id);
   }
 
+  List<Meal> getFilteredMeals() {
+    return filterMeals();
+  }
+
   @override
   Widget build(BuildContext context) {
-    filter();
     return Scaffold(
       drawer: Drawer(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
@@ -217,7 +212,8 @@ class _TabsScreenState extends State<TabsScreen> {
           ? CategoriesScreen(
               saveToFavorites: saveToFavorites,
               isFavorite: isFavorite,
-              filteredMeals: filteredMeals,
+              getFilteredMeals: getFilteredMeals,
+              filter: filterMeals,
             )
           : MealScreen.favorite(
               title: "Favorites",
