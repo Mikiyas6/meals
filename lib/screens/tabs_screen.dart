@@ -15,7 +15,12 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   late int _selectedIndex;
   late List<String> favorites;
-  var filters = <Filters, bool>{};
+  Map<Filters, bool> filters = {
+    Filters.isGlutenFree: false,
+    Filters.isLactoseFree: false,
+    Filters.isVegetarian: false,
+    Filters.isVegan: false,
+  };
   @override
   void initState() {
     super.initState();
@@ -122,7 +127,9 @@ class _TabsScreenState extends State<TabsScreen> {
               onTap: () async {
                 Navigator.pop(context);
                 final activeFilters = await Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => FiltersScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => FiltersScreen(filters: filters),
+                  ),
                 );
                 setState(() {
                   filters = activeFilters;

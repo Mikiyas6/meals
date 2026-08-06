@@ -3,7 +3,9 @@ import 'package:meals/data/filters.dart';
 import 'package:meals/widgets/filter_item.dart';
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+  const FiltersScreen({super.key, this.filters});
+
+  final Map<Filters, bool>? filters;
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
 }
@@ -11,11 +13,21 @@ class FiltersScreen extends StatefulWidget {
 enum Filters { isGlutenFree, isLactoseFree, isVegetarian, isVegan }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  var isGlutenFree = false;
-  var isLactoseFree = false;
-  var isVegetarian = false;
-  var isVegan = false;
-  var activeFilters = <Filters, bool>{};
+  bool? isGlutenFree;
+  bool? isLactoseFree;
+  bool? isVegetarian;
+  bool? isVegan;
+  Map<Filters, bool> activeFilters = <Filters, bool>{};
+
+  @override
+  void initState() {
+    activeFilters = widget.filters!;
+    isGlutenFree = activeFilters[Filters.isGlutenFree];
+    isLactoseFree = activeFilters[Filters.isLactoseFree];
+    isVegetarian = activeFilters[Filters.isVegetarian];
+    isVegan = activeFilters[Filters.isVegan];
+    super.initState();
+  }
 
   void togglePressed(int index, bool value) {
     var name = activeFilters.keys.toList()[index].name;
@@ -46,10 +58,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   Widget build(BuildContext context) {
     activeFilters = {
-      Filters.isGlutenFree: isGlutenFree,
-      Filters.isLactoseFree: isLactoseFree,
-      Filters.isVegetarian: isVegetarian,
-      Filters.isVegan: isVegan,
+      Filters.isGlutenFree: isGlutenFree!,
+      Filters.isLactoseFree: isLactoseFree!,
+      Filters.isVegetarian: isVegetarian!,
+      Filters.isVegan: isVegan!,
     };
     return PopScope(
       canPop: false,
