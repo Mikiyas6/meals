@@ -3,56 +3,77 @@ import 'package:meals/data/filters.dart';
 import 'package:meals/widgets/filter_item.dart';
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({
-    super.key,
-    required this.onToggleGlutenFree,
-    required this.onToggleLactoseFree,
-    required this.onToggleVegetarian,
-    required this.onToggleVegan,
-    required this.getIsGlutenFree,
-    required this.getIsLactoseFree,
-    required this.getIsVegetarian,
-    required this.getIsVegan,
-  });
-
-  final Function onToggleGlutenFree;
-  final Function onToggleLactoseFree;
-  final Function onToggleVegetarian;
-  final Function onToggleVegan;
-  final Function getIsGlutenFree;
-  final Function getIsLactoseFree;
-  final Function getIsVegetarian;
-  final Function getIsVegan;
+  const FiltersScreen({super.key});
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
 }
 
+enum Filters { isGlutenFree, isLactoseFree, isVegetarian, isVegan }
+
 class _FiltersScreenState extends State<FiltersScreen> {
+  var isGlutenFree = false;
+  var isLactoseFree = false;
+  var isVegetarian = false;
+  var isVegan = false;
+  var activeFilters = <Filters, bool>{};
+
+  void togglePressed(int index, bool value) {
+    var name = activeFilters.keys.toList()[index].name;
+    switch (name) {
+      case "isGlutenFree":
+        setState(() {
+          isGlutenFree = value;
+        });
+        break;
+      case "isLactoseFree":
+        setState(() {
+          isLactoseFree = value;
+        });
+        break;
+      case "isVegetarian":
+        setState(() {
+          isVegetarian = value;
+        });
+        break;
+      case "isVegan":
+        setState(() {
+          isVegan = value;
+        });
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Your Filters"), centerTitle: false),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(32, 0, 8, 0),
-        child: Column(
-          children: [
-            ...filters.map(
-              (filter) => FilterItem(
-                key: Key(filter.id),
-                id: filter.id,
-                filterType: filter.filterType,
-                filterDescription: filter.filterDescription,
-                onToggleGlutenFree: widget.onToggleGlutenFree,
-                onToggleLactoseFree: widget.onToggleLactoseFree,
-                onToggleVegetarian: widget.onToggleVegetarian,
-                onToggleVegan: widget.onToggleVegan,
-                getIsGlutenFree: widget.getIsGlutenFree,
-                getIsLactoseFree: widget.getIsLactoseFree,
-                getIsVegetarian: widget.getIsVegetarian,
-                getIsVegan: widget.getIsVegan,
-              ),
-            ),
-          ],
+    activeFilters = {
+      Filters.isGlutenFree: isGlutenFree,
+      Filters.isLactoseFree: isLactoseFree,
+      Filters.isVegetarian: isVegetarian,
+      Filters.isVegan: isVegan,
+    };
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        Navigator.of(context).pop(activeFilters);
+      },
+      child: Scaffold(
+        appBar: AppBar(title: Text("Your Filters"), centerTitle: false),
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(32, 0, 8, 0),
+          child: ListView.builder(
+            itemCount: activeFilters.length,
+            itemBuilder: (context, index) {
+              final filterValue = activeFilters.values.toList();
+              return FilterItem(
+                filterType: filters[index].filterType,
+                filterDescription: filters[index].filterDescription,
+                index: index,
+                onTogglePressed: togglePressed,
+                isToggleOn: filterValue[index],
+              );
+            },
+          ),
         ),
       ),
     );

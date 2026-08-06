@@ -5,92 +5,24 @@ class FilterItem extends StatefulWidget {
     super.key,
     required this.filterType,
     required this.filterDescription,
-    required this.id,
-    required this.onToggleGlutenFree,
-    required this.onToggleLactoseFree,
-    required this.onToggleVegetarian,
-    required this.onToggleVegan,
-    required this.getIsGlutenFree,
-    required this.getIsLactoseFree,
-    required this.getIsVegetarian,
-    required this.getIsVegan,
+    required this.onTogglePressed,
+    required this.isToggleOn,
+    required this.index,
   });
   final String filterType;
   final String filterDescription;
-  final String id;
-  final Function onToggleGlutenFree;
-  final Function onToggleLactoseFree;
-  final Function onToggleVegetarian;
-  final Function onToggleVegan;
-  final Function getIsGlutenFree;
-  final Function getIsLactoseFree;
-  final Function getIsVegetarian;
-  final Function getIsVegan;
+  final Function onTogglePressed;
+  final bool isToggleOn;
+  final int index;
+
   @override
   State<FilterItem> createState() => _FilterItemState();
 }
 
 class _FilterItemState extends State<FilterItem> {
-  late bool isGlutenFree = widget.getIsGlutenFree();
-  late bool isLactoseFree = widget.getIsLactoseFree();
-  late bool isVegetarian = widget.getIsVegetarian();
-  late bool isVegan = widget.getIsVegan();
-
   @override
   void initState() {
     super.initState();
-  }
-
-  bool isToggleOn() {
-    switch (widget.id) {
-      case "0":
-        return isGlutenFree;
-      case "1":
-        return isLactoseFree;
-      case "2":
-        return isVegetarian;
-      case "3":
-        return isVegan;
-      default:
-        return false;
-    }
-  }
-
-  void _togglePressed() {
-    switch (widget.id) {
-      case "0":
-        {
-          widget.onToggleGlutenFree();
-          setState(() {
-            isGlutenFree = widget.getIsGlutenFree();
-          });
-        }
-        break;
-      case "1":
-        {
-          widget.onToggleLactoseFree();
-          setState(() {
-            isLactoseFree = widget.getIsLactoseFree();
-          });
-        }
-        break;
-      case "2":
-        {
-          widget.onToggleVegetarian();
-          setState(() {
-            isVegetarian = widget.getIsVegetarian();
-          });
-        }
-        break;
-      case "3":
-        {
-          widget.onToggleVegan();
-          setState(() {
-            isVegan = widget.getIsVegan();
-          });
-        }
-        break;
-    }
   }
 
   @override
@@ -108,9 +40,10 @@ class _FilterItemState extends State<FilterItem> {
           color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
-      value: isToggleOn(),
+
+      value: widget.isToggleOn,
       onChanged: (value) {
-        _togglePressed();
+        widget.onTogglePressed(widget.index, value);
       },
     );
   }

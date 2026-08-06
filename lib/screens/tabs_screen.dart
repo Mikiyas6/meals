@@ -15,59 +15,12 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   late int _selectedIndex;
   late List<String> favorites;
-  late bool isGlutenFree;
-  late bool isVegetarian;
-  late bool isLactoseFree;
-  late bool isVegan;
+  var filters = <Filters, bool>{};
   @override
   void initState() {
     super.initState();
     _selectedIndex = 0;
     favorites = [];
-    isGlutenFree = false;
-    isLactoseFree = false;
-    isVegetarian = false;
-    isVegan = false;
-  }
-
-  void onToggleGlutenFree() {
-    setState(() {
-      isGlutenFree = !isGlutenFree;
-    });
-  }
-
-  void onToggleLactoseFree() {
-    setState(() {
-      isLactoseFree = !isLactoseFree;
-    });
-  }
-
-  void onToggleVegetarian() {
-    setState(() {
-      isVegetarian = !isVegetarian;
-    });
-  }
-
-  void onToggleVegan() {
-    setState(() {
-      isVegan = !isVegan;
-    });
-  }
-
-  bool getIsGlutenFree() {
-    return isGlutenFree;
-  }
-
-  bool getIsLactoseFree() {
-    return isLactoseFree;
-  }
-
-  bool getIsVegetarian() {
-    return isVegetarian;
-  }
-
-  bool getIsVegan() {
-    return isVegan;
   }
 
   void selectIndex(int index) {
@@ -88,20 +41,21 @@ class _TabsScreenState extends State<TabsScreen> {
 
   List<Meal> filterMeals() {
     var meals = List.of(dummyMeals);
+    var values = filters.values.toList();
 
-    if (isGlutenFree) {
+    if (values[0]) {
       meals = meals.where((meal) => meal.isGlutenFree).toList();
     }
 
-    if (isLactoseFree) {
+    if (values[1]) {
       meals = meals.where((meal) => meal.isLactoseFree).toList();
     }
 
-    if (isVegetarian) {
+    if (values[2]) {
       meals = meals.where((meal) => meal.isVegetarian).toList();
     }
 
-    if (isVegan) {
+    if (values[3]) {
       meals = meals.where((meal) => meal.isVegan).toList();
     }
 
@@ -165,22 +119,14 @@ class _TabsScreenState extends State<TabsScreen> {
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              onTap: () {
+              onTap: () async {
                 Navigator.pop(context);
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => FiltersScreen(
-                      onToggleGlutenFree: onToggleGlutenFree,
-                      onToggleLactoseFree: onToggleLactoseFree,
-                      onToggleVegetarian: onToggleVegetarian,
-                      onToggleVegan: onToggleVegan,
-                      getIsGlutenFree: getIsGlutenFree,
-                      getIsLactoseFree: getIsLactoseFree,
-                      getIsVegetarian: getIsVegetarian,
-                      getIsVegan: getIsVegan,
-                    ),
-                  ),
+                final activeFilters = await Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => FiltersScreen()),
                 );
+                setState(() {
+                  filters = activeFilters;
+                });
               },
               title: Text(
                 "Filters",
